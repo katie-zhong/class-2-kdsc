@@ -5,23 +5,31 @@ date: '2022-06-17'
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-```
+# echo = FALSE makes this part invisible in knit
+knitr::opts_chunk$set(echo = FALSE)
 
 # Get access to height and nhanes
-```{r}
+library(tidyverse)
 library(primer.data)
-
-nhanes |>
-  select(height) |>
-  
-  ggplot(mapping = aes(x = height)) +
-    geom_histogram(color = "white") +
-  labs(title = "Height of People in the U.S.", 
-       x = "Height in Centimeters",
-       y = "Number of People")
+library(ggplot2)
 ```
 
+```{r, warning=FALSE}
+# warning = FALSE gets rid of additional code lines in knit
 
-# Take height column, do some beginning analysis --> explore it some more
+nhanes |>
+  select(height, age) |>
+  
+  filter(age >= 18) |> 
+  
+  ggplot(mapping = aes(x = height)) +
+    geom_histogram(color = "white", bins = 100) +
+    theme_classic() +
+  labs(title = "Height of People in the U.S.",
+       subtitle = "Kill all children! (For legal reasons, this is a joke)",
+       caption = "Source: National Health and Nutrition Examination Survey NHANES (2009)",
+       x = "Height in Centimeters",
+       y = "Number of People") +
+  theme(plot.title = element_text(face = "bold"))
+  
+```
